@@ -1,0 +1,51 @@
+.nav-home{
+    min-height: 10vh;
+    width: 100%;
+    display: flex;
+    padding: 0 3rem;
+    justify-content: space-between;
+    align-items: center;
+     .logo{
+            z-index: 30;
+            min-width: 50px;
+            padding: 0 1rem;
+            font-size: 22px;
+            font-family: 'Abril Fatface', cursive;
+            font-weight: lighter;
+            color:var(--color-green);
+            text-decoration: none;
+    }
+      
+    .nav-right{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 0.5rem;
+       
+        .logout{
+            padding-left: 1rem;
+        }
+        img{
+            width: 1rem;
+        }
+       .btn-nav{
+        background: transparent;
+        border: none;
+        cursor: pointer;
+        border: 1px solid rgb(65,65,65);
+        border-radius: 4px;
+        padding: 0.5rem;
+        transition: all 0.3s ease;
+        max-height: 2.2rem;
+        font-size: 0.8rem;
+        color: rgb(65,65,65);
+        text-decoration: none;
+        // min-width: 100px;
+            &:hover{
+            background-color:rgb(65,65,65) ;
+            color: white;
+            }
+        }
+    }
+     
+} 

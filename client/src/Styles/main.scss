@@ -1,0 +1,53 @@
+:root {
+    --color-background:rgb(203, 203, 203);
+    --color-background-white:rgb(236, 240, 241);
+    --color-main-dark: rgb(29, 30, 31);
+    --color-main-light: rgb(128, 130, 130);
+    --color-table-dark: #3a3b4d;
+    --color-table-light:#b8b8b8;
+    --color-table-white:#e8ebec;
+
+    --color-home-font: rgb(65, 65, 65);
+    --color-home-light: rgb(236, 240, 241);
+
+    --color-gray:#6e6f76;
+    --color-green:#0a795c;
+    --color-red:rgb(158, 5, 0);
+    --color-blue:rgb(43, 33, 104);
+    --color-yellow:rgb(245, 187, 11);
+}
+
+
+@import './read';
+@import './itemCRUD';
+@import './create';
+@import './edit';
+
+
+@import './home';
+@import './itemsListHome';
+@import './cardDetail';
+@import './nav';
+@import './search';
+
+body,
+body * {
+    margin: 0;
+    padding: 0;
+    vertical-align: top;
+    box-sizing: border-box; 
+}
+body {
+    font-family:'Lato', sans-serif;
+}
+
+.app{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    // align-items: center;
+    // width: 100vw;
+    height: 100vh;
+    // background-color: var(--color-background);
+    
+}
