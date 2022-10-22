@@ -1,25 +1,45 @@
+import NavDashboard from './NavDashboard';
 
+export default function CommentsList({ game,  deleteComment, username }) {
+console.log('gamesfdew', game);
 
-export default function CommentsList({setDeleteId, deleteComment, item, setModalData}) {
-
- 
     return(
-        
-      <div>
- <div className="comments-list" >
-
-{ 
-    item.comments ? item.comments.slice(0, -5).split('-^o^-,').map((c, i) => (
-        <li className='comment' key={i}>
-            {c}
-            <div >
-                <button className="button" type="button" onClick={() => deleteComment(item.cid.split(',')[i])}>Delete</button>
+          
+        <div className="read" >
+            <NavDashboard username={username} />
+            <div className="container">
+            <div className="read-table table-item-min" >
+                <div className='table-header' >
+                    <div>
+                       <h2>Coments in:  </h2> 
+                       <i>
+                           {game.title}
+                       </i>
+                    </div>
+                    
+                </div>
+            
+            <div className="title" >
+                <div>No</div>
+                <div>Comment</div>
             </div>
-        </li>
-        )) : null
-}
-</div>
+            
+            <ul>
+                {
+                    game.comments ? game.comments.slice(0, -5).split('-^o^-,').map((item, i) => <div key={i} >
+                        
+                    <div className="item-in-table item-3" >
+                        <div>{i + 1}</div>
+                        <div>{item}</div>
+                        <button className="button btn-delete"  onClick={() => deleteComment(game.cid.split(',')[i])}>DELETE</button>
+                    </div>
+                        
+                    </div>) : null
+                }
+            </ul>
+        </div> 
+        </div>
+    </div>
 
-      </div>
     )
 }

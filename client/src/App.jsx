@@ -8,41 +8,64 @@ import Dashboard from './Pages/Dashboard';
 import RequireAuth from "./Components/Back/RequireAuth";
 
 import Login from './Pages/Login';
+import Register from './Pages/Register';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import Logout from './Components/Back/Logout';
 
 
 
+
 function App() {
+  const [lastUpdate, setLastUpdate] = useState(Date.now());
+  const [user, setUser] = useState([]);
+  axios.defaults.withCredentials = true;
+
+  
+
+
+  useEffect(() =>{
+    axios.get('http://localhost:3001/login')
+    .then((response) => {
+        if (response.data.loggedIn === true) {
+          setUser(response.data.user[0])
+          console.log(response.data); 
+        }
+    })
+ }, [lastUpdate])
 
   return (
     <div className="app">
+      
       <BrowserRouter >
      <Routes>
        
-     <Route path="/login"  element={<Login />} />
+     <Route path="/login"  element={<Login setLastUpdate={setLastUpdate}/>} />
+     <Route path="/register"  element={<Register setLastUpdate={setLastUpdate}/>} />
      <Route path="/logout"  element={<Logout />} />
 
-       <Route path="/"  element={<Home show="all"/>} />
-       <Route path="action" element={<Home show="action"/>} />
-       <Route path="rpg" element={<Home show="rpg"/>} />
-       <Route path="strategy" element={<Home show="shooter"/>} />
-       <Route path="puzzle" element={<Home show="puzzle"/>} />
-       <Route path="pc" element={<Home show="pc"/>} />
-       <Route path="playstation" element={<Home show="playstation"/>} />
-       <Route path="xbox" element={<Home show="xbox"/>} />
-       <Route path="nintendo" element={<Home show="nintendo"/>} />
+       <Route path="/"  element={<Home user={user} show="all"/>} />
+       <Route path="action" element={<Home user={user} show="action"/>} />
+       <Route path="rpg" element={<Home user={user} show="rpg"/>} />
+       <Route path="strategy" element={<Home user={user} show="shooter"/>} />
+       <Route path="puzzle" element={<Home user={user} show="puzzle"/>} />
+       <Route path="pc" element={<Home user={user} show="pc"/>} />
+       <Route path="playstation" element={<Home user={user} show="playstation"/>} />
+       <Route path="xbox" element={<Home user={user} show="xbox"/>} />
+       <Route path="nintendo" element={<Home user={user} show="nintendo"/>} />
 
 
        <Route  path="/admin/*" element={
 
-       <RequireAuth role='admin' >
-          <Dashboard />
+       <RequireAuth lastUpdate={lastUpdate} role='admin' >
+          <Dashboard user={user} />
       </RequireAuth>} />
 
      </Routes>
      </BrowserRouter>
+
+    
+     <footer><span>Copyright &#169; Video Games Database</span></footer>
     </div>
   );
 }

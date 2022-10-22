@@ -1,42 +1,23 @@
 import { Link} from 'react-router-dom';
-import logout from '../../img/logout-line.svg';
 
-export default function ReadAuthor({authors, setDeleteAuthorId}){
+import NavDashboard from './NavDashboard';
+
+export default function ReadAuthor({authors, setDeleteAuthorId, username}){
 
 
     return(
         
-        <div className="read" >
-            <Link className='logo' to="/">
-                <h3>Games Database</h3>
-            </Link>
-         <div className="nav-crud">
-         <Link className='logout' to="/logout">
-                 <img src={logout} alt="logout" />
-                 </Link>
-            <li>
-            <Link className="text-link" to="/admin/list" >Admin</Link>
-            </li>
-            <span> &gt; </span>
-            <li>
-            <h1>Developers list</h1>
-            </li>
-        </div>
-        <div className="nav-crud">
-            <li>
-            <Link className="text-link list-link" to="/admin/list" >Products List</Link>
-            </li>
-            
-        </div>
-
-    <div className="read-table" >
+    <div className="read" >
+        <NavDashboard username={username} />
+        <div className="container">
+        <div className="read-table table-item-min" >
             <div className='table-header' >
-             <h2>Developers list</h2>
-             <Link className="btn btn-create" to="/admin/newDeveloper"  >Create new Developer</Link>
+                <h2>Developers list</h2>
+                <Link className="btn btn-create" to="/admin/developers/new"  >Create new Developer</Link>
             </div>
         
             <div>
-                <div className="title" >
+                <div className="title item-3" >
                     <div>No</div>
                     <div>Developer</div>
                 </div>
@@ -46,7 +27,7 @@ export default function ReadAuthor({authors, setDeleteAuthorId}){
                 {
                     authors.map((item, i) => <div key={item.id} >
                         
-                    <div className="item-in-table" >
+                    <div className="item-in-table item-3" >
                         <div>{i + 1}</div>
                         <div>{item.author}</div>
                         
@@ -60,8 +41,8 @@ export default function ReadAuthor({authors, setDeleteAuthorId}){
             </ul>
 
         </div> 
-
-</div>
+    </div>
+    </div>
 
     )
 }

@@ -1,9 +1,10 @@
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom"
 import getBase64 from "../../Functions/getBase64";
-import logout from '../../img/logout-line.svg';
 
-export default function Edit({ authors, setEditData, setModalData, modalData}) {
+import NavDashboard from './NavDashboard';
+
+export default function Edit({ authors, setEditData, setModalData, modalData, username}) {
 
     const [title, setTitle] = useState('');
     const [type, setType] = useState('1');
@@ -97,25 +98,10 @@ if (modalData === null) {
 
     return(
         <div className="edit" >
-            <Link className='logo' to="/">
-                <h3>Video Games Database</h3>
-            </Link>
-             <div className="nav-crud">
-             <Link className='logout' to="/logout">
-                 <img src={logout} alt="logout" />
-                 </Link>
-            <li>
-            <Link className="text-link" to="/admin/list" >Admin</Link>
-            </li>
-            <span> &gt; </span>
-            <li>
-            <h1>Edit Product</h1>
-            </li>
-
-            </div>
-            
+            <NavDashboard username={username}  />
+          
             <div className="edit-table" >
-                <h2>Create new item</h2>
+                <h2>Edit Game</h2>
 
                 <div className="form-container">
                 <div className="formE" >
@@ -178,8 +164,8 @@ if (modalData === null) {
                 
             </div>
                 <div className="input button">
-                        <Link className="btn btn-save" to="/admin/list"  onClick={buttonHandler} >Save</Link>
-                        <Link className="btn btn-cancel" to="/admin/list"  onClick={() => setModalData(null)} >Cancel</Link>
+                        <Link className="btn btn-save" to="/admin/games"  onClick={buttonHandler} >Save</Link>
+                        <Link className="btn btn-cancel" to="/admin/games"  onClick={() => setModalData(null)} >Cancel</Link>
                     </div>
 
             </div>

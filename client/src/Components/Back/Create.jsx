@@ -2,9 +2,12 @@ import { useRef, useState } from "react";
 import { Link } from "react-router-dom";
 
 import getBase64 from "../../Functions/getBase64";
-import logout from '../../img/logout-line.svg';
 
-export default function Create({ authors, setCreateData}) {
+import NavDashboard from './NavDashboard';
+
+
+export default function Create({ authors, setCreateData, username}) {
+
 
     const [title, setTitle] = useState('');
     const [type, setType] = useState('1');
@@ -70,29 +73,10 @@ const inputHandler = (e, which) => {
 }
     return(
         <div className="create" >
-            <Link className='logo' to="/">
-                <h3>Video Games Database</h3>
-            </Link>
-            <div className="nav-crud">
-                <Link className='logout' to="/logout">
-                    <img src={logout} alt="logout" />
-                </Link>
-                <li>
-                    <Link className="text-link" to="/admin/list" >Admin</Link>
-                </li>
-                    <span> &gt; </span>
-                <li>
-                    <h1>Product List</h1>
-                </li>
-                    <span> &gt; </span>
-                <li>
-                    <h1>Create New Product</h1>
-                </li>
+            <NavDashboard username={username}  />
 
-            </div>
-            
             <div className="create-table" >
-                <h2>Create New Product</h2>
+                <h2>Create New Game</h2>
 
                 <div className="form-container">
                     <div className="formC" >
@@ -144,7 +128,7 @@ const inputHandler = (e, which) => {
 
                     </div>
                     <div className="input button">
-                        <Link className="btn btn-save" to="/admin/list" onClick={buttonHandler} >Add</Link>
+                        <Link className="btn btn-save" to="/admin/games" onClick={buttonHandler} >Add</Link>
                     </div>
 
                 </div>

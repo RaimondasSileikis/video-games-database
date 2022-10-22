@@ -1,32 +1,52 @@
 import { Link } from "react-router-dom";
-import login from '../../img/login.svg';
-import Logout from "../Back/Logout";
+
 
 export default function Nav({username, libraryStatus, setLibraryStatus, resetSort}){
 
     return(
         <div className="nav-home">
-            <Link className="logo" to="/" onClick={resetSort}  >Video Games Database</Link>
+            <Link className="logo" to="/" onClick={resetSort}  >
+                <div className='logo-max'>
+                   <h1>Video Games Database </h1> 
+                </div>
+                <div className='logo-min'>
+                   <h1>VGD</h1> 
+                </div>
+            </Link>
 
-            <div className="nav-right">
-                <button onClick={() => setLibraryStatus(!libraryStatus)} className="btn-nav">Category</button>
+            <div className="user">
+              
             { !username 
             ? 
             <>
-                <Link className='btn-nav' to="/login" >Sign in</Link>
-                <Link className='btn-nav' to="/login" >Register</Link>
+                <Link className='logout' to="/login" >
+                    <h3>Sign in</h3>
+                </Link>
+
+                <Link className='logout' to="/register" >
+                    <h3>Register</h3>
+                </Link>
             </>
              : 
             <>
-             <div className='logo'>{username}</div>
-             <Link className='btn-nav' to="/logout" onClick={resetSort}  >Logout</Link>
+                <div className='user'>
+                    <h2> {username}</h2>
+                 
+                    <Link className='logout' to="/logout" onClick={resetSort} >
+                        <h3>Logout</h3>
+                    </Link>
+                </div>
              </> 
             }
                 
+           
 
-            </div>
-            
         </div>
+
+
+
+            
+       </div> 
 
     )
 }

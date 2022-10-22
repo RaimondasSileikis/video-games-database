@@ -3,17 +3,17 @@ import { useEffect, useState } from "react";
 import axios from 'axios';
 import { Link } from "react-router-dom";
 
- function  RequireAuth({ children, role}) {
+ function  RequireAuth({ children, role, lastUpdate}) {
 
 
-  const [view, setView] = useState(<h2>Please wait...</h2>);
+  const [view, setView] = useState('');
 
   axios.defaults.withCredentials = true;
 
   useEffect(() => {
     axios.get('http://localhost:3001/login-check' )
     .then(response => {
-                // if (response.data.loggedIn === true && role === response.data.user[0].role) {
+               
                 if (role === response.data.user[0].role) {
                   setView(children);
                   
@@ -23,7 +23,7 @@ import { Link } from "react-router-dom";
                 }
               })
         
-          }, [children, role]);
+          }, [children, role, lastUpdate]);
         
           return view;
         }

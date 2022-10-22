@@ -13,45 +13,30 @@ import CardDetail from '../Components/Front/CardDetail';
 
 
 
-export default function Home({show}) {
+export default function Home({show, user}) {
 const [lastUpdate, setLastUpdate] = useState(Date.now());
 const [listTableStatus, setListTableStatus] = useState(true);
 const [libraryStatus, setLibraryStatus] = useState(false);
 const [search, setSearch] = useState('');
 
 const [games, dispachGames] = useReducer(reducer, []);
-const [gameData, setGameData] = useState([])
+
 const [gameIndex, setGameIndex] = useState(null);
-
-
-// const [role, setRole] = useState('');
-const [username, setUsername] = useState('');
-const [userId, setUserId] = useState('');
-
 
 const [votes, setVotes] = useState('');
 const [userVoteStatus, setUserVoteStatus] = useState('');
 
-
 axios.defaults.withCredentials = true;
-
-useEffect(() =>{
-    axios.get('http://localhost:3001/login')
-    .then((response) => {
-        if (response.data.loggedIn == true) {
-        //   setRole(response.data.user[0].role);
-          setUsername(response.data.user[0].username);
-          setUserId(response.data.user[0].id);
-          console.log(response.data); 
-        }
-    })
-}, [])
-
 
 
 useEffect(() => {
-    if (gameIndex !== null) document.querySelector('.app').style.overflow =  'hidden';
-    else document.querySelector('.app').style.overflow =  'visible';
+    if (gameIndex !== null){
+    (document.querySelector('.app').style.overflow =  'hidden') &&
+    (document.querySelector('.app').style.height = '100vh')
+    } 
+      else {(document.querySelector('.app').style.overflow =  'visible') && 
+            (document.querySelector('.app').style.height = 'initial')  
+    }
   }, [gameIndex]);
 
 //Read
@@ -127,20 +112,14 @@ useEffect(() => {
 
 
     const gameClick = (id) => {
-        const filteredData = games.filter(game => game.id === id)
          const findIndex = games.findIndex((game) => game.id === id)
-        setGameData(filteredData)
        setGameIndex(findIndex);
    
   
             
      const filteredVotedGames = votes.filter(vote => vote.game === games[findIndex].id)
-     filteredVotedGames.filter(vote => (vote.user === userId)).length !== 0 
+     filteredVotedGames.filter(vote => (vote.user === user.id)).length !== 0 
     ? setUserVoteStatus(1) : setUserVoteStatus(0)
-
-    
-
-  
      };
 
  
@@ -148,18 +127,16 @@ useEffect(() => {
         const element = e.target;
         if (element.classList.contains("shadow")) {
             setGameIndex(null);
-            setGameData(null);
         }
     }
    
      const cancelGameClickId = () =>{
      setGameIndex(null);
-     setGameData(null)
      }
 
     return(
         <div className="home"   >
-        <Nav username={username} search={search} resetSort={deleteSearch}  serverSort={serverSort} doSearch={doSearch} libraryStatus={libraryStatus} setLibraryStatus={setLibraryStatus} dispachGames={dispachGames} ></Nav>
+        <Nav username={user.username} search={search} resetSort={deleteSearch}  serverSort={serverSort} doSearch={doSearch} libraryStatus={libraryStatus} setLibraryStatus={setLibraryStatus} dispachGames={dispachGames} ></Nav>
            <Search deleteSearch={deleteSearch} iputSearch={iputSearch} search={search} doSearch={doSearch} submitSearch={submitSearch} />
             <div className={`library ${libraryStatus ? 'active-library' : ''}`}>
             <h1>Sort by game genre</h1>
@@ -176,17 +153,30 @@ useEffect(() => {
             <Link className="text-link" to="/nintendo" onClick={() => setLibraryStatus(!libraryStatus)} >Nintento</Link>
 
             </div>
-            <div className="cards-list">
+
                 <div className='list-title'>
                     
+
                     <button onClick={() => serverSort('title', 'asc')} className="btn-nav btn-sort-up"><span>Sort by </span>Name</button>
                     <button onClick={() => serverSort('title', 'desc')}  className="btn-nav btn-sort-down"><span>Sort by </span>Name</button>
                     <button onClick={() => dispachGames(sortClientHeightAsc())}  className="btn-nav btn-sort-up"><span>Sort by </span>Rating</button>
                     <button onClick={() => dispachGames(sortClientHeightDesc())}  className="btn-nav btn-sort-down"><span>Sort by </span>Rating</button>
 
+                    <button onClick={() => setLibraryStatus(!libraryStatus)} className="btn-nav btn-category">Category</button>
+
+                    {/* <button  onClick={() => setListTableStatus(!listTableStatus)} className='btn-nav btn-list' ><span>Display</span>Options</button> */}
+
+                    
+                </div>
+                 <div className='display-options'>
                     <button  onClick={() => setListTableStatus(!listTableStatus)} className='btn-nav btn-list' ><span>Display</span>Options</button>
                 </div>
+
+            <div className="cards-list">
                
+               
+                
+
                 <div className={` ${listTableStatus ? 'cards-column' : 'cards-row'}`}>
             
                     { games.length !== 0 ?
@@ -197,7 +187,7 @@ useEffect(() => {
                 </div>
             </div>
 
-       {gameIndex !== null   ?   <CardDetail username={username} setUserVoteStatus={setUserVoteStatus} userVoteStatus={userVoteStatus}  saveUserVotes={saveUserVotes} votes={votes} userId={userId}   saveVote={saveVote}  saveComment={saveComment}  cancelGameClickId={cancelGameClickId} game={games[gameIndex]} exitDetailHandler={exitDetailHandler}/> : null}
+       {gameIndex !== null   ?   <CardDetail username={user.username} setUserVoteStatus={setUserVoteStatus} userVoteStatus={userVoteStatus}  saveUserVotes={saveUserVotes} votes={votes} userId={user.id}   saveVote={saveVote}  saveComment={saveComment}  cancelGameClickId={cancelGameClickId} game={games[gameIndex]} exitDetailHandler={exitDetailHandler}/> : null}
 
          </div>
     )

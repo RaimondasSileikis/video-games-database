@@ -1,44 +1,23 @@
 import Item from './Item';
 import { Link} from 'react-router-dom';
-import logout from '../../img/logout-line.svg';
+
+import NavDashboard from './NavDashboard';
 
 
-export default function Read({username, deleteComment, games, setDeleteId, setModalData }) {
-    
-    
+export default function Read({ username, deleteComment, games, setDeleteId, setModalData, setGameIndex }) {
+
+     
     return(
-    <>
-       
+    
         <div className="read" >
-            <Link className='logo' to="/">
-                <h3>Video Games Database </h3>
-                <h3> {username}</h3>
-            </Link>
-            <div className="nav-crud">
-                <Link className='logout' to="/logout">
-                    <img src={logout} alt="logout" />
-                </Link>
-                <li>
-                    <Link className="text-link" to="/admin/list" >Admin</Link>
-                </li>
-                <span> &gt; </span>
-                <li>
-                    <h1>Products list</h1>
-                    
-                </li>
-            </div>
 
-            <div className="nav-crud">
-                <li>
-                    <Link className="text-link list-link" to="/admin/developerList" >Developers List</Link>
-                </li>
-            
-            </div>
+            <NavDashboard username={username}/>
+        <div className="container">
 
-            <div className="read-table" >
+            <div className="read-table table-item-max" >
                 <div className='table-header' >
-                    <h2>Products list</h2>
-                    <Link className="btn btn-create" to="/admin/new"  >Create new Product</Link>
+                    <h2>Games list</h2>
+                    <Link className="btn btn-create" to="/admin/games/new"  >Create new Game</Link>
                 </div>
         
                 <div className="title" >
@@ -52,24 +31,22 @@ export default function Read({username, deleteComment, games, setDeleteId, setMo
                   
                 </div>
         
-        {games.length ? 
+                {games.length ? 
                 <ul>
                 {
-                    games.map((item, i) => <Item deleteComment={deleteComment}  key={item.id} item={item} i={i + 1} setDeleteId={setDeleteId} setModalData={setModalData}/>)
+                    games.map((item, i) => <Item setGameIndex={setGameIndex} deleteComment={deleteComment}  key={item.id} item={item} i={i} setDeleteId={setDeleteId} setModalData={setModalData}/>)
                 }
 
                 </ul>
                 :
                 <h2>Please wait...Loading</h2>
-        }
+                }
+
             </div>
-
+            </div>
         </div>
+        
+   
 
-
-
-
-           
-    </>
-    );
+    )
 }

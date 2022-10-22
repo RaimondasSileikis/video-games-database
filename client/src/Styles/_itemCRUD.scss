@@ -1,14 +1,11 @@
 .item-in-table {
     display:grid;
     gap: 0.5rem;
-    // min-width: 750px;
     grid-template-columns:  2rem auto 6rem 6rem 3rem 10rem 5rem 5rem ;
-    
     padding: 0.2rem 0 0.2rem 0;
     border-top: 1px dotted var(--color-table-light);
     justify-items: center;
     align-items: center;
-    // overflow-x:auto;
     .active-no,
     .active-yes {
         content: '';
@@ -24,6 +21,16 @@
     
     .active-yes::before{
         content: '\2611';
+    }
+    .comment {
+        display: flex;
+        align-items: center;
+        text-decoration: none;
+        color: inherit;
+        height: 100%;
+        &:hover {
+            color: var(--color-green);
+        }
     }
     .button {
         display:flex;
@@ -120,4 +127,7 @@
     border-radius: 2px;
     color: var(--color-table-white);
     cursor: pointer;
+}
+.item-3 {
+    grid-template-columns:  2rem auto 5rem ;
 }

@@ -164,7 +164,7 @@ app.get("/login-check", (req, res) => {
 app.get("/games-manager", doAuth(['admin', 'mod']), (req, res) => {
   const sql = `
   SELECT
-  m.id AS id, dj.author, m.photo, m.title, m.type, m.category, m.about, m.count, m.sum, GROUP_CONCAT(k.comment, '-^o^-') AS comments,  GROUP_CONCAT(k.id) AS cid 
+  m.id AS id, dj.author, m.photo, m.title, m.type, m.category, m.about, m.count, m.sum, GROUP_CONCAT(k.name, ': ', k.comment, '-^o^-') AS comments,  GROUP_CONCAT(k.id) AS cid 
   FROM games AS m
   LEFT JOIN comments AS k
   ON m.id = k.games_id

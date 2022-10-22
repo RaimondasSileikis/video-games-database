@@ -10,11 +10,9 @@ import Edit from "../Components/Back/Edit";
 import Read from "../Components/Back/Read";
 import CommentsList from '../Components/Back/CommentsList';
 
-export default function Dashboard(){
+export default function Dashboard({user}){
 
-
-
-    const [lastUpdate, setLastUpdate] = useState(Date.now());// state
+    const [lastUpdate, setLastUpdate] = useState(Date.now());
     const [createData, setCreateData] = useState(null);
     const [editData, setEditData] = useState(null);
     const [modalData, setModalData] = useState(null);
@@ -27,22 +25,13 @@ export default function Dashboard(){
   
     const [deleteAuthorId, setDeleteAuthorId] = useState(null);
 
+    const [gameIndex, setGameIndex] = useState('');
 
- 
-const [username, setUsername] = useState('');
+   
+
+// axios.defaults.withCredentials = true;
 
 
-axios.defaults.withCredentials = true;
-
-useEffect(() =>{
-    axios.get('http://localhost:3001/login')
-    .then((response) => {
-        if (response.data.loggedIn == true) {
-          setUsername(response.data.user[0].username);  
-          console.log(response.data); 
-        }
-    })
-}, [])
 
  // Read games
  useEffect(() => {
@@ -135,23 +124,22 @@ useEffect(() =>{
   
   },[editData]);
   
-  
-  
+ 
     return(
     
       <Routes>
-      <Route path="/list"  element={<Read username={username} deleteComment={deleteComment} games={games} setModalData={setModalData} setDeleteId={setDeleteId} />}/>
-       <Route  path="/new"  element={<Create setCreateData={setCreateData} authors={authors} />}/>
-       <Route  path="/edit"  element={<Edit  setEditData={setEditData} setModalData={setModalData} modalData={modalData} authors={authors}  />}/>
+      <Route path="/games"  element={<Read deleteComment={deleteComment} games={games} setModalData={setModalData} setDeleteId={setDeleteId} setGameIndex={setGameIndex} username={user.username} />}/>
+       <Route  path="/games/new"  element={<Create  setCreateData={setCreateData} authors={authors} username={user.username}/>}/>
+       <Route  path="/games/edit"  element={<Edit  setEditData={setEditData} setModalData={setModalData} modalData={modalData} authors={authors} username={user.username} />}/>
 
 
 
-       <Route  path="/developerList"  element={<ReadAuthor setDeleteAuthorId={setDeleteAuthorId} authors={authors} />}/>
+       <Route  path="/developers"  element={<ReadAuthor setDeleteAuthorId={setDeleteAuthorId} authors={authors} username={user.username} />}/>
 
        
-       <Route  path="/newDeveloper"  element={<CreateAuthor  setCreateAuthorsData={setCreateAuthorsData} />}/>
+       <Route  path="/developers/new"  element={<CreateAuthor  setCreateAuthorsData={setCreateAuthorsData} username={user.username} />}/>
 
-       <Route  path="/commentsList"  element={<CommentsList />}/>
+       <Route  path="/comments"  element={<CommentsList game={games[gameIndex]}  deleteComment={deleteComment}  username={user.username}/>}/>
        
       </Routes>
 

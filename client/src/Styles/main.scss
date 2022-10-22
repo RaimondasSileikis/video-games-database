@@ -22,13 +22,15 @@
 @import './itemCRUD';
 @import './create';
 @import './edit';
-
+@import './navDashboard';
 
 @import './home';
 @import './itemsListHome';
 @import './cardDetail';
 @import './nav';
 @import './search';
+@import './btnHome';
+@import './login';
 
 body,
 body * {
@@ -39,15 +41,33 @@ body * {
 }
 body {
     font-family:'Lato', sans-serif;
+    
 }
+
+
 
 .app{
     display: flex;
     flex-direction: column;
     justify-content: center;
-    // align-items: center;
-    // width: 100vw;
-    height: 100vh;
-    // background-color: var(--color-background);
-    
+    align-items: center;
+    width: 100%;
+    footer {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        bottom: 0;
+        padding: 1rem;
+        margin-top: 1rem;
+        background-color: var(--color-white);
+        text-align: center;
+        span {
+            font-size: 12px;
+            color: inherit;
+        }
+      }
+
+    .container {
+        width: 90%;
+    }
 }
