@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 import NavDashboard from './NavDashboard';
 
-export default function CreateAuthor({setCreateAuthorsData, username}) {
+export default function CreateAuthor({setCreateAuthorsData, user}) {
 
     const [author, setAuthor] = useState('');
  
@@ -15,7 +15,7 @@ export default function CreateAuthor({setCreateAuthorsData, username}) {
     }
     return(
         <div className="create" >
-             <NavDashboard username={username} />
+             <NavDashboard user={user} />
             <div className="create-table" >
                 <h2>Create New Developer</h2>
                 <div className="form-container">

@@ -1,0 +1,24 @@
+.error {
+    display: flex;
+    flex-direction: column;
+    align-items:center;
+    justify-content: center;
+    width: 100%;
+    height: 100vh;
+    text-decoration: none;
+    h1{
+        font-size: 18px;
+
+    }
+    .message-link {
+        text-decoration: none;
+        
+    }
+   h2{
+    font-size: 14px;
+    color: initial;
+   }
+   span{
+   color: blue;
+   }
+} 

@@ -12,6 +12,7 @@ const cookieParser = require('cookie-parser');
 const session = require('express-session');
 
 const bcrypt = require('bcrypt');
+const { send } = require("express/lib/response");
 const saltRounds = 10;
 
 
@@ -59,37 +60,55 @@ app.get("/", (req, res) => {
     res.send("Hello Gamers!");
   });
 
-  
 app.post("/register", (req, res) => {
+
+  const sqlget = `
+    SELECT id FROM users
+    WHERE username = ?
+  `;
+
   const sql = `
-        INSERT INTO users
-        (username, pass)
-        VALUES (?, ?)
-    `;
+    INSERT INTO users
+    (username, pass)
+    VALUES (?, ?)
+  `;
 
-  bcrypt.hash(req.body.password, saltRounds, (err, hash) => {
-
-    if (err) {
-      console.log(err);
-    }
-    con.query(
-      sql,
-      [req.body.username, hash],
-      (err, result) => {
-        if (err) {
-          throw err;
-        }
-        res.send(result);
+  con.query(
+    sqlget,
+    [req.body.username], (err, result) => {
+      if (err) {
+        console.log(err);
       }
-    );
-  })
+      if (result.length > 0) {
+        res.send({message : 'Username exist. Please correct and try again.'})
+        } else {
+
+          bcrypt.hash(req.body.password, saltRounds,  (err, hash) => {
+            if (err) {
+            console.log(err);
+            }
+
+          con.query(
+            sql,
+            [req.body.username, hash],
+            (err, result) => {
+                if (err) {
+                throw err;
+                }
+              res.send(result);
+            }
+          );
+        })
+      }   
+    }
+  )
 });
 
 app.get("/login", (req, res) => {
   if (req.session.user) {
     res.send({ loggedIn: true, user: req.session.user })
   } else{
-    res.send({ loggedIn: false });
+    res.send({ loggedIn: false});
   }
 });
 
@@ -109,9 +128,7 @@ app.post("/login", (req, res) => {
             if (response) {
               req.session.user = result;
               console.log(req.session.user);
-             
               res.send(result)
-
             } else {
               res.send({message: "Wrong username/password combination! "})
             }
@@ -140,28 +157,13 @@ const doAuth = (permissions) => {
       if (permissions.includes(userRole)) {
         next()
       } else {
-        return   res.status(401).json('You dont have permissions401')
-    
+         res.send( { message: `auth You Don't Have Permission!`});
       }
   }
 };
 
-
-app.get("/login-check", (req, res) => {
-  
-    const userRole = req.session.user ? req.session.user[0].role : ''
-    if (userRole == 'admin' ) {
-      res.send({ loggedIn: true, user: req.session.user })
-      
-   } else {
-   res.send({ loggedIn: false, user: `You Don't Have Permission`});
-    
-  }
-});
-
-
 //GET MANAGER*******
-app.get("/games-manager", doAuth(['admin', 'mod']), (req, res) => {
+app.get("/games-manager", doAuth(['admin', 'moderator']), (req, res) => {
   const sql = `
   SELECT
   m.id AS id, dj.author, m.photo, m.title, m.type, m.category, m.about, m.count, m.sum, GROUP_CONCAT(k.name, ': ', k.comment, '-^o^-') AS comments,  GROUP_CONCAT(k.id) AS cid 
@@ -174,15 +176,69 @@ app.get("/games-manager", doAuth(['admin', 'mod']), (req, res) => {
   GROUP BY m.id
 `;
 con.query(sql, (err, result) => {
+  if (err) throw err;
+  res.send(result);
+});
+});
+
+
+app.get("/users", doAuth(['admin']),  (req, res) => {
+  const sql = `
+  SELECT
+  *
+  FROM users
+`;
+con.query(sql, (err, result) => {
+if (err) throw err;
+res.send(result);
+});
+});
+
+
+app.delete("/users/:id", (req, res) => {
+  const sql = `
+      DELETE FROM users
+      WHERE id = ?
+      `;
+
+  const deluser = req.params.id != req.session.user[0].id.toString() ?  req.params.id : null
+
+  con.query(sql, [deluser], (err, result) => {
   if (err) {
-    return result.json('You dont have permissions!!')
-
-  } else {
-    res.send(result);
+    throw err;
   }
+  res.send(result);
+  });
+  });
 
-});
-});
+
+  app.put("/users/:id", (req, res) => {
+    let sql;
+    let args;
+     
+        sql = `
+        UPDATE users
+        SET role = ?
+        WHERE id = ?
+      `;
+      if (req.body.role == 'admin') {
+      return null
+      }
+        args = [req.body.role, req.params.id];
+     
+    
+    con.query(
+      sql,
+      args,
+      (err, results) => {
+        if (err) {
+          throw err;
+          
+        }
+        res.send(results);
+      }
+    );
+  });
 
 
 // GET LIST*******
@@ -223,7 +279,6 @@ app.get("/votes-list", (req, res) => {
     res.send(result);
   });
 });
-
 
 
 app.get("/games-list/:cat", (req, res) => {
@@ -279,7 +334,7 @@ app.get("/games-list-sorted/", (req, res) => {
 
 
 // GET MANAGER AUTHORS
-app.get("/games-authors", doAuth(['admin', 'mod']),  (req, res) => {
+app.get("/games-authors", doAuth(['admin', 'moderator']),  (req, res) => {
   const sql = `
   SELECT
   *

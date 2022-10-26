@@ -6,16 +6,13 @@ import starRating from '../../img/star-rating.svg';
 import noProduct from '../../img/no-product.jpeg';
 import { useNavigate } from "react-router-dom";
 
-export default function CardDetail({username, setUserVoteStatus, userVoteStatus, saveUserVotes, votes, userId, game, cancelGameClickId,  saveVote, saveComment, exitDetailHandler}) {
+export default function CardDetail({ username, setUserVoteStatus, userVoteStatus, saveUserVotes, votes, userId, game, cancelGameClickId,  saveVote, saveComment, exitDetailHandler}) {
     
 
     const [vote, setVote] = useState(5);
     const [comment, setComment] = useState('');
 
-   
     const navigate = useNavigate();
-   
-    
    
     const clickVote = () => {
 if (!userId) {
@@ -30,7 +27,7 @@ if (userVoteStatus === 0 ) {
     }
 
     const clickComment = () => {
-        saveComment(game.id, comment, username);
+        saveComment(game.id, comment, username ? username : '' );
         setComment('');
     }
 
@@ -71,8 +68,7 @@ if (userVoteStatus === 0 ) {
                              
                     </h5> 
                 <div className="detail-item-voiting">
-                    {/* <input type="number" min="1" max="10"  value={vote} onChange={e => setVote(e.target.value)}></input> */}
-
+                   
                     {userVoteStatus === 0 ?
                     
                     <>

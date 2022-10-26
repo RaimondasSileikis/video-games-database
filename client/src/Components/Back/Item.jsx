@@ -5,7 +5,6 @@ export default function Item({setDeleteId, deleteComment, item, i, setModalData,
 
 const countComments = item.comments ? item.comments.slice(0, -5).split('-^o^-,').length : 0;
 
-
     return(
         
             <div className="item-in-table" >

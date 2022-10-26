@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 
 
-export default function Nav({username, libraryStatus, setLibraryStatus, resetSort}){
+export default function Nav({user, resetSort}){
 
     return(
         <div className="nav-home">
@@ -16,7 +16,7 @@ export default function Nav({username, libraryStatus, setLibraryStatus, resetSor
 
             <div className="user">
               
-            { !username 
+            { !user.username 
             ? 
             <>
                 <Link className='logout' to="/login" >
@@ -30,8 +30,8 @@ export default function Nav({username, libraryStatus, setLibraryStatus, resetSor
              : 
             <>
                 <div className='user'>
-                    <h2> {username}</h2>
-                 
+                    <h2> {user.username}</h2>
+                
                     <Link className='logout' to="/logout" onClick={resetSort} >
                         <h3>Logout</h3>
                     </Link>
@@ -39,13 +39,8 @@ export default function Nav({username, libraryStatus, setLibraryStatus, resetSor
              </> 
             }
                 
-           
+            </div>
 
-        </div>
-
-
-
-            
        </div> 
 
     )

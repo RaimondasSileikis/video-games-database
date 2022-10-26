@@ -6,7 +6,7 @@ import getBase64 from "../../Functions/getBase64";
 import NavDashboard from './NavDashboard';
 
 
-export default function Create({ authors, setCreateData, username}) {
+export default function Create({ authors, setCreateData, user}) {
 
 
     const [title, setTitle] = useState('');
@@ -73,7 +73,7 @@ const inputHandler = (e, which) => {
 }
     return(
         <div className="create" >
-            <NavDashboard username={username}  />
+            <NavDashboard user={user}  />
 
             <div className="create-table" >
                 <h2>Create New Game</h2>

@@ -4,7 +4,7 @@ import getBase64 from "../../Functions/getBase64";
 
 import NavDashboard from './NavDashboard';
 
-export default function Edit({ authors, setEditData, setModalData, modalData, username}) {
+export default function Edit({ authors, setEditData, setModalData, modalData, user}) {
 
     const [title, setTitle] = useState('');
     const [type, setType] = useState('1');
@@ -98,7 +98,7 @@ if (modalData === null) {
 
     return(
         <div className="edit" >
-            <NavDashboard username={username}  />
+            <NavDashboard user={user}  />
           
             <div className="edit-table" >
                 <h2>Edit Game</h2>

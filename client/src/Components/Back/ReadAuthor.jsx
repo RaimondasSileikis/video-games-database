@@ -2,13 +2,13 @@ import { Link} from 'react-router-dom';
 
 import NavDashboard from './NavDashboard';
 
-export default function ReadAuthor({authors, setDeleteAuthorId, username}){
+export default function ReadAuthor({authors, setDeleteAuthorId, user}){
 
 
     return(
         
     <div className="read" >
-        <NavDashboard username={username} />
+        <NavDashboard user={user} />
         <div className="container">
         <div className="read-table table-item-min" >
             <div className='table-header' >

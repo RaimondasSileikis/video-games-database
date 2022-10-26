@@ -1,23 +1,14 @@
 import axios from "axios";
-import { useEffect } from "react";
-import { Navigate, } from "react-router-dom";
 
+export default function Logout() {
+  axios.defaults.withCredentials = true;
 
-function Logout() {
-
-
-  // const navigate = useNavigate();
-  const logoutButton = () => {
+  const logout = () => {
     axios.get('http://localhost:3001/logout', )
-      .then(response => {
+      .then(res => {
+        console.log(res);
+        window.location.replace('/login');
     });
   };
-
-
-    useEffect(() => logoutButton(), []);
-    return (
-      <Navigate to="/login" replace />
-    )
+    return logout();
   }
-
-export default Logout;

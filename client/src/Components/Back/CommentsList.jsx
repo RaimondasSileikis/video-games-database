@@ -1,12 +1,12 @@
 import NavDashboard from './NavDashboard';
 
-export default function CommentsList({ game,  deleteComment, username }) {
+export default function CommentsList({ game,  deleteComment, user }) {
 console.log('gamesfdew', game);
 
     return(
           
         <div className="read" >
-            <NavDashboard username={username} />
+            <NavDashboard user={user} />
             <div className="container">
             <div className="read-table table-item-min" >
                 <div className='table-header' >
