@@ -1,31 +1,18 @@
 const express = require("express");
 const app = express();
 const port = 3001;
+
 const cors = require("cors");
-// app.use(cors());
-
-
 const mysql = require("mysql");
-
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
-
 const bcrypt = require('bcrypt');
-const { send } = require("express/lib/response");
 const saltRounds = 10;
-
 
 app.use(express.json({limit: '50mb'}));
 app.use(express.urlencoded({limit: '50mb'}));
-
-
-app.use(
-  express.urlencoded({
-    extended: true,
-  })
-);
-
+app.use(express.urlencoded({extended: true,}));
 app.use(express.json());
 
 app.use(cors({
@@ -55,7 +42,6 @@ const con = mysql.createConnection({
     database: "store_games",
 });
 
-//Route
 app.get("/", (req, res) => {
     res.send("Hello Gamers!");
   });
@@ -82,12 +68,10 @@ app.post("/register", (req, res) => {
       if (result.length > 0) {
         res.send({message : 'Username exist. Please correct and try again.'})
         } else {
-
           bcrypt.hash(req.body.password, saltRounds,  (err, hash) => {
             if (err) {
             console.log(err);
             }
-
           con.query(
             sql,
             [req.body.username, hash],
@@ -140,7 +124,6 @@ app.post("/login", (req, res) => {
   );
 });
 
-
 app.get('/logout', (req, res) => {
   req.session.destroy(function(err) {
     if (err) {
@@ -157,8 +140,8 @@ const doAuth = (permissions) => {
       if (permissions.includes(userRole)) {
         next()
       } else {
-         res.send( { message: `auth You Don't Have Permission!`});
-      }
+         res.send( { message: `You Don't Have Permission!`});
+    }
   }
 };
 
@@ -166,21 +149,19 @@ const doAuth = (permissions) => {
 app.get("/games-manager", doAuth(['admin', 'moderator']), (req, res) => {
   const sql = `
   SELECT
-  m.id AS id, dj.author, m.photo, m.title, m.type, m.category, m.about, m.count, m.sum, GROUP_CONCAT(k.name, ': ', k.comment, '-^o^-') AS comments,  GROUP_CONCAT(k.id) AS cid 
-  FROM games AS m
-  LEFT JOIN comments AS k
-  ON m.id = k.games_id
-  LEFT JOIN authors as dj
-  ON m.author_id = dj.id
-  
-  GROUP BY m.id
+  gm.id AS id, ath.author, gm.photo, gm.title, gm.type, gm.category, gm.about, gm.count, gm.sum, GROUP_CONCAT(cmt.name, ': ', cmt.comment, '-^o^-') AS comments,  GROUP_CONCAT(cmt.id) AS cmtid 
+  FROM games AS gm
+  LEFT JOIN comments AS cmt
+  ON cmt.games_id = gm.id
+  LEFT JOIN authors as ath
+  ON gm.author_id = ath.id
+  GROUP BY gm.id
 `;
 con.query(sql, (err, result) => {
   if (err) throw err;
   res.send(result);
 });
 });
-
 
 app.get("/users", doAuth(['admin']),  (req, res) => {
   const sql = `
@@ -194,65 +175,17 @@ res.send(result);
 });
 });
 
-
-app.delete("/users/:id", (req, res) => {
-  const sql = `
-      DELETE FROM users
-      WHERE id = ?
-      `;
-
-  const deluser = req.params.id != req.session.user[0].id.toString() ?  req.params.id : null
-
-  con.query(sql, [deluser], (err, result) => {
-  if (err) {
-    throw err;
-  }
-  res.send(result);
-  });
-  });
-
-
-  app.put("/users/:id", (req, res) => {
-    let sql;
-    let args;
-     
-        sql = `
-        UPDATE users
-        SET role = ?
-        WHERE id = ?
-      `;
-      if (req.body.role == 'admin') {
-      return null
-      }
-        args = [req.body.role, req.params.id];
-     
-    
-    con.query(
-      sql,
-      args,
-      (err, results) => {
-        if (err) {
-          throw err;
-          
-        }
-        res.send(results);
-      }
-    );
-  });
-
-
 // GET LIST*******
 app.get("/games-list/all", (req, res) => {
   const sql = `
         SELECT
-        m.id AS id, dj.author, m.photo, m.title, m.type, m.category, m.about, m.count, m.sum, GROUP_CONCAT(k.name, ': ', k.comment, '-^o^-') AS comments, k.id AS cid 
-        FROM games AS m
-        LEFT JOIN comments AS k
-        ON m.id = k.games_id
-        LEFT JOIN authors as dj
-        ON m.author_id = dj.id
-        
-        GROUP BY m.id
+        gm.id AS id, ath.author, gm.photo, gm.title, gm.type, gm.category, gm.about, gm.count, gm.sum, GROUP_CONCAT(cmt.name, ': ', cmt.comment, '-^o^-') AS comments, cmt.id AS cmtid 
+        FROM games AS gm
+        LEFT JOIN comments AS cmt
+        ON gm.id = cmt.games_id
+        LEFT JOIN authors as ath
+        ON gm.author_id = ath.id
+        GROUP BY gm.id
     `;
   con.query(sql, (err, result) => {
     if (err) throw err;
@@ -266,13 +199,11 @@ app.get("/votes-list", (req, res) => {
         SELECT
         v.id AS id, v.user_id as user, us.username,v.game_id as game, gm.title 
         FROM votes AS v
-      
         LEFT JOIN games as gm
         ON v.game_id = gm.id
         LEFT JOIN users as us
         ON v.user_id = us.id
         GROUP BY v.id
-     
     `;
   con.query(sql, (err, result) => {
     if (err) throw err;
@@ -390,8 +321,6 @@ app.post("/games-authors", (req, res) => {
 
 app.post("/user-vote/", (req, res) => {
   const sql = `
-  
-
   INSERT INTO votes
   (user_id, game_id, vote)
   VALUES (?, ?, ?)
@@ -450,6 +379,22 @@ app.post("/games-comment/:id", (req, res) => {
 
 
 // DELETE***********
+app.delete("/users/:id", (req, res) => {
+  const sql = `
+      DELETE FROM users
+      WHERE id = ?
+      `;
+
+  const deluser = req.params.id != req.session.user[0].id.toString() ?  req.params.id : null
+
+  con.query(sql, [deluser], (err, result) => {
+  if (err) {
+    throw err;
+  }
+  res.send(result);
+  });
+  });
+
 app.delete("/games-manager/:id", (req, res) => {
 const sql = `
     DELETE FROM games
@@ -461,6 +406,20 @@ if (err) {
 }
 res.send(result);
 });
+});
+
+
+app.delete("/games-manager-authors/:id", (req, res) => {
+  const sql = `
+        DELETE FROM authors
+        WHERE id = ?
+        `;
+  con.query(sql, [req.params.id], (err, result) => {
+    if (err) {
+      throw err;
+    }
+    res.send(result);
+  });
 });
 
 app.delete("/games-delete-comment/:id", (req, res) => {
@@ -477,7 +436,31 @@ app.delete("/games-delete-comment/:id", (req, res) => {
 });
 
 
-// PUT**********  
+// PUT**********
+app.put("/users/:id", (req, res) => {
+  let sql;
+  let args;
+      sql = `
+      UPDATE users
+      SET role = ?
+      WHERE id = ?
+    `;
+    if (req.body.role == 'admin') {
+    return null
+    }
+      args = [req.body.role, req.params.id];
+  con.query(
+    sql,
+    args,
+    (err, results) => {
+      if (err) {
+        throw err;
+      }
+      res.send(results);
+    }
+  );
+});
+
 app.put("/games-manager/:id", (req, res) => {
   let sql;
   let args;

@@ -1,0 +1,242 @@
+.edit{ 
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content:flex-start;
+    align-items:center;
+   gap: 20px;
+   background-color: white;
+
+    .edit-table {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        background-color:var(--color-table-light);
+        color: var(--color-table-dark);
+        font-size: 1.2em;
+        border-radius: 4px;
+        border: none;
+        box-shadow: 0 4px 5px rgba(0, 0, 0, 0.3);
+        align-items: stretch;
+        h2 {
+            display: flex;
+            align-items: center;
+            font-size: 1rem;
+            line-height: 2rem;
+            width: 100%;
+            height: 4rem;
+            font-weight: 400;
+            background-color: var(--color-table-light);
+            color:var(--color-main-dark);
+            padding: 0 2rem;
+            border-top-left-radius: 4px;
+            border-top-right-radius: 4px;
+            border-bottom: 1px solid var(--color-main-light);
+            font-weight: 600;
+        }
+        .form-container{
+            display: flex;
+            flex-direction: column;
+            padding-bottom: 1rem;
+             h5{
+                 width: 24rem;
+                    font-size: 1rem;
+                    padding: 1rem;
+                    span{
+                        color:var(--color-main-dark);
+                    }
+                }
+            .formE{
+                width: 100%;
+                padding: 1rem;
+                display: grid;
+                align-items: center;
+                justify-items: center;
+                grid-template-columns: 10rem 10rem ;
+                grid-template-rows: 4rem 4rem 8rem 3rem 4rem  ;
+                gap:0 1rem;
+                grid-template-areas: 
+                "a b"
+                "c d"
+                "e e"
+                "f f"
+                "i j";
+               
+               .input{
+                    display: grid;
+                    align-items: center;
+                    width: 100%;
+                    font-size: 1.1rem;
+                    height: 100%;
+                    label{
+                        font-size: 0.9rem;
+                        font-weight: 600;
+                        padding-left: 0.5rem;
+                        color: var(--color-main-dark);
+                    }    
+                    input,
+                    select,
+                    textarea {    
+                        height: 100%;
+                        width: 100%;
+                        font-size: 0.8em;
+                        line-height: 1em;
+                        border: 1px solid var(--color-main-dark);
+                        background-color: var(--color-table-white);
+                        outline: none;
+                        padding-left: 0.5em;
+                        color: var(--color-main-dark);
+                    } 
+               }
+                
+                .name,
+                .type,
+                .category {
+                    width: 100%;
+                    height: 100%;
+                    align-items: end;
+                }
+                 
+                .name,
+                .type,
+                .category {
+                    input {
+                        padding-left: 0.5em;
+                        color: var(--color-gray);
+                        border: 1px solid var(--color-gray);
+                        box-shadow: 0px 0px 1px 0px rgba(0, 0, 0, 0.1);
+                    }
+                }
+
+                .about{
+                    grid-area: e;
+                    grid-template-columns: 1fr;
+                    grid-template-rows: 30% 70%;
+                    width: 100%;
+                    height: 100%;
+                }
+                .file{
+                    grid-area: f;
+                    grid-template-columns: 1fr 1fr;
+                    grid-template-rows: 1fr;
+                   
+                    input{
+                        height: 2rem;
+                    }
+                }
+                .photo{
+                    grid-area: i;
+                    img{
+                        height: 4rem; 
+                    }
+                    
+                }
+                .active{
+                    grid-area: j;
+                    grid-template-columns: 1fr 1fr;
+                    grid-template-rows: 1fr;
+                    width: 100%;
+                    height: 100%;
+
+                    label{
+                        font-size: 0.8em;
+                        font-weight: 600;
+                    }    
+                    input {
+                         display: grid;   
+                         justify-self:self-end;
+                         align-self: center;
+                         position: relative;
+                         width: 0.4em;
+                         height: 0.6em;
+                         font-size: 2em;
+                         line-height: 2em;
+                         appearance: none;
+                         outline: 0;
+                         background-color: var(--color-table-white);
+                         border: 1px solid var(--color-main-dark);
+               
+                         &::before {
+                             position: absolute;
+                             content: '\2714';
+                             display: block;
+                             font-size: 0.5em;
+                             left: 0.1em;
+                             top: -1.5em;
+                             opacity: 0;
+                             color: var(--color-main-dark);
+                         }     
+                         &:checked {
+                         
+                         background: var(--color-table-white);
+                             &::before {
+                                 opacity: 1;
+                             }
+                         } 
+                    }
+                }
+                 
+
+            }
+
+            .button{
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                grid-template-areas: 
+                "a b";
+                width: 100%;
+                height: 2em;
+                justify-content: center;
+                gap:0.8em;
+                padding: 0 1em; 
+                .btn {    
+                    display:grid ;
+                    align-self: center;
+                    justify-self: center;
+                    justify-items: center;
+                    align-items: center;
+                    width: 100%;
+                    height: 100%;
+                    font-size: 0.8em;
+                    border-radius: 4px;
+                    display: inline-block;
+                    text-transform: capitalize;
+                    text-decoration: none;
+                    font-weight: 800;
+                    color:var(--color-table-light);
+                    border: 0.1em solid var(--color-table-dark);
+                    border-radius: 4px;
+                    cursor: pointer;
+                    transition: 0.3s;
+                        &:hover {
+                            color:var(--color-table-light); 
+                            transition: 0.3s;
+                            opacity: 1;
+                        }
+                }        
+                .btn-save{
+                    display: grid;
+                    grid-area: b;
+                    background-color:var(--color-green);
+                    opacity: 0.8;
+                    &:hover {
+                    background-color:var(--color-green);
+                }
+                   
+
+                }
+
+                .btn-cancel{
+                    display: grid;
+                    grid-area: a;
+                    background-color:var(--color-table-dark);
+                    opacity: 0.8;
+                    &:hover {
+                    background-color:var(--color-table-dark);
+                    }
+                }  
+            }
+        }
+    }
+}
