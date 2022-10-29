@@ -10,6 +10,7 @@ React.js, React Router, Axios, MySQL, Node, Express.js, HTML, Sass.
 
 ## Preview
 
+
 ![Video Games Database](preview.gif "Video Games Database Preview")
 
 ## Instructions
@@ -19,10 +20,7 @@ Make sure that Git, Node.js, and npm are installed.
 Then in the terminal clone a repository:
 
 ```
-
 git clone https://github.com/RaimondasSileikis/video-games-database.git
-
-
 ```
 
 Using XAMPP.
@@ -38,14 +36,11 @@ For the back-end, go to server folder and install the dependencies once via the 
 cd video-games-database
 cd server
 npm install
-
 ```
 
 Start the Express.js server:
-
 ```
 npm start
-
 ```
 
 For the front-end, go to client folder and install the dependencies once via the terminal.:
@@ -54,20 +49,18 @@ For the front-end, go to client folder and install the dependencies once via the
 cd ..
 cd client
 npm install
-
 ```
 
 Start the React aplication:
 
 ```
 npm start
-
 ```
 
 Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
 The page will reload when you make changes.\
-You may also see any lint errors in the console.
+You may also see any list errors in the console.
 
 ## Questions
 
