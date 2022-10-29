@@ -3,7 +3,7 @@ import '../../Styles/main.scss';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 
-import Home from '../../pages/main/Home';
+import Home from '../../pages/home/Home';
 import Dashboard from './Dashboard';
 import Register from '../../pages/sign-up/Register';
 import Login from '../../pages/sign-in/Login';
@@ -34,11 +34,13 @@ export default function Main() {
           <Route path="/logout"  element={<Logout/>} />
 
           <Route  path="/admin/*" element={<Dashboard user={user} />}/>
-
+          
           <Route  path="/"  element={<Home user={user} show="all"/>} />
           <Route path="action" element={<Home user={user} show="action"/>} />
+          <Route path="adventure" element={<Home user={user} show="adventure"/>} />
           <Route path="rpg" element={<Home user={user} show="rpg"/>} />
           <Route path="strategy" element={<Home user={user} show="shooter"/>} />
+          <Route path="shooter" element={<Home user={user} show="shooter"/>} />
           <Route path="puzzle" element={<Home user={user} show="puzzle"/>} />
           <Route path="pc" element={<Home user={user} show="pc"/>} />
           <Route path="playstation" element={<Home user={user} show="playstation"/>} />

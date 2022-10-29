@@ -8,7 +8,6 @@
     --color-table-white:#e8ebec;
     --color-white:#fff;
 
-
     --color-home-font: rgb(65, 65, 65);
     --color-home-light: rgb(236, 240, 241);
 
@@ -19,24 +18,19 @@
     --color-yellow:rgb(245, 187, 11);
 }
 
+@import '../pages/error-page/error';
 @import '../pages/sign-in/login';
-
-
-
-
-@import '../pages/games-list/styles/nav';
-@import '../pages/games-list/styles/read';
-@import '../pages/games-list/styles/item';
 @import '../pages/game-create/create';
 @import '../pages/game-edit/edit';
-
-@import '../pages/main/styles/home';
-@import '../pages/main/styles/itemHome';
-@import '../pages/main/styles/cardDetail';
-@import '../pages/main/styles/navHome';
-@import '../pages/main/styles/search';
-@import '../pages/main/styles/btn';
-
+@import '../pages/games-list/styles/item';
+@import '../pages/games-list/styles/nav';
+@import '../pages/games-list/styles/read';
+@import '../pages/home/styles/btn';
+@import '../pages/home/styles/cardDetail';
+@import '../pages/home/styles/home';
+@import '../pages/home/styles/itemHome';
+@import '../pages/home/styles/navHome';
+@import '../pages/home/styles/search';
 @import './spinner';
 
 body,
